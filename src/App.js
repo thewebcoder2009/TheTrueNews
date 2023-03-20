@@ -10,6 +10,7 @@ export default class App extends Component {
       <div>
         <Navbar/>
         <News />
+        {document.body.classList.add('bg-body-tertiary')}
       </div>
     )
   }
