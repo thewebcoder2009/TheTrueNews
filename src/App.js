@@ -9,8 +9,7 @@ export default class App extends Component {
     return (
       <div>
         <Navbar/>
-        <News />
-        {document.body.classList.add('bg-body-tertiary')}
+        <News pageSize={5} />
       </div>
     )
   }
