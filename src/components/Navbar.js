@@ -1,37 +1,35 @@
 // import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 export class Navbar extends Component {
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="/">The True News</a>
+                    <Link className="navbar-brand" to="/">The True News</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <a className="nav-link" aria-current="page" href="/">Home</a>
+                                <Link className="nav-link" aria-current="page" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/about">About</a>
+                                <Link className="nav-link" to="/health">Health</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/about">Business</a>
+                                <Link className="nav-link" to="/business">Business</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/about">Sports</a>
+                                <Link className="nav-link" to="/sports">Sports</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/about">Entertainment</a>
+                                <Link className="nav-link" to="/tech">Technology</Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/about">Tech</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/about">General</a>
+                                <Link className="nav-link" to="/general">General</Link>
                             </li>
                         </ul>
                     </div>
