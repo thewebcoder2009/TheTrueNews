@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
-import Spinner from './Spinner';
 import PropTypes from 'prop-types'
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -28,7 +27,6 @@ export class News extends Component {
         super(props);
         this.state = {
             articles: [],
-            loading: true,
             page: 1,
             totalResults: 0
         }
@@ -36,62 +34,52 @@ export class News extends Component {
     }
 
     async updateNews() {
+        this.props.setProgress(0);
         const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=e8ee8a7c792a43f6b787807370c883db&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-        this.setState({ loading: true })
+        this.props.setProgress(60);
         let data = await fetch(url);
+        this.props.setProgress(75);
         let parsedData = await data.json()
+        this.props.setProgress(80);
         this.setState(
             {
                 articles: parsedData.articles,
                 totalResults: parsedData.totalResults,
-                loading: false,
             }
         )
+        this.props.setProgress(100);
     }
 
     async componentDidMount() {
         this.updateNews()
     }
-
-    handlePrevClick = async () => {
-        this.setState({
-            page: this.state.page - 1
-        })
-        this.updateNews();
-    }
-
-    handleNextClick = async () => {
-        this.setState({
-            page: this.state.page + 1
-        })
-        this.updateNews();
-    }
     
     fetchMoreData = async () => {
         this.setState({page: this.state.page + 1})
+        this.props.setProgress(0);
         const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=e8ee8a7c792a43f6b787807370c883db&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         let data = await fetch(url);
+        this.props.setProgress(40);
         let parsedData = await data.json()
+        this.props.setProgress(60);
         this.setState(
             {
                 articles: this.state.articles.concat(parsedData.articles),
                 totalResults: parsedData.totalResults,
             }
         )
+        this.props.setProgress(100);
     };
 
     render() {
         return (
             <>
-                <h1 className='text-center'>The True News - Top {this.caps(this.props.category)} Headlines</h1>
-
-                {this.state.loading && <Spinner />}
+                <h1 className='text-center my-3'>The True News - Top {this.caps(this.props.category)} Headlines</h1>
 
                 <InfiniteScroll
                     dataLength={this.state.articles.length}
                     next={this.fetchMoreData}
                     hasMore={this.state.articles.length !== this.state.totalResults}
-                    loader={<Spinner />}
                 >
                     <div className="container">
                         <div className="row">
