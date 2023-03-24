@@ -13,7 +13,6 @@ const News = (props) => {
         return lower.charAt(0).toUpperCase() + lower.slice(1);
     }
 
-    document.title = `True News - ${caps(props.title)}`
 
     const updateNews = async() => {
         props.setProgress(0);
@@ -29,24 +28,25 @@ const News = (props) => {
     }
 
     useEffect(() => {
+        document.title = `True News - ${caps(props.title)}`
         updateNews()
+        // eslint-disable-next-line
     }, [])
     
     const fetchMoreData = async () => {
-        setPage(page + 1)
         props.setProgress(0);
-        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
+        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
+        setPage(page + 1)
         let data = await fetch(url);
-        props.setProgress(40);
+        props.setProgress(50);
         let parsedData = await data.json()
-        props.setProgress(60);
         setArticles(articles.concat(parsedData.articles))
         setTotalResults(parsedData.totalResults)
         props.setProgress(100);
     };
     return (
         <>
-            <h1 className='text-center my-3'>The True News - Top {caps(props.category)} Headlines</h1>
+            <h1 className='text-center' style={{marginTop: '75px', marginBottom: '25px'}}>The True News - Top {caps(props.category)} Headlines</h1>
 
             <InfiniteScroll
                 dataLength={articles.length}
